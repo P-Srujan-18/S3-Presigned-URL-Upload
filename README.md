@@ -22,6 +22,10 @@ Direct PUT Upload
         ↓
 Amazon S3
 
+## Architecture
+
+![S3 Presigned URL Upload Architecture](screenshots/architecture-diagram.png)
+
 ## AWS Services Used
 
 - Amazon S3
