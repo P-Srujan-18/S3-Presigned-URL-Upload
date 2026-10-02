@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>S3 Secure Mobile Upload</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(135deg, #eef2f7, #dfe7f1);
+        }
+
+        .phone {
+            width: 380px;
+            background: white;
+            border-radius: 28px;
+            padding: 32px 25px;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.15);
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        .icon {
+            font-size: 45px;
+            margin-bottom: 10px;
+        }
+
+        h1 {
+            font-size: 24px;
+            margin-bottom: 8px;
+        }
+
+        .subtitle {
+            color: #666;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
+        .upload-box {
+            border: 2px dashed #ff9900;
+            border-radius: 15px;
+            padding: 25px 15px;
+            text-align: center;
+            margin-top: 20px;
+            background: #fffaf3;
+        }
+
+        .upload-box p {
+            margin-bottom: 15px;
+            color: #555;
+        }
+
+        input[type="file"] {
+            width: 100%;
+            margin-bottom: 18px;
+        }
+
+        button {
+            width: 100%;
+            padding: 14px;
+            border: none;
+            border-radius: 10px;
+            background: #ff9900;
+            color: white;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        button:hover {
+            background: #e68a00;
+            transform: translateY(-1px);
+        }
+
+        #status {
+            text-align: center;
+            margin-top: 18px;
+            font-size: 14px;
+            font-weight: bold;
+            min-height: 20px;
+        }
+
+        .security {
+            margin-top: 25px;
+            padding-top: 18px;
+            border-top: 1px solid #eee;
+            text-align: center;
+            color: #777;
+            font-size: 12px;
+            line-height: 1.6;
+        }
+
+        .aws {
+            color: #ff9900;
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="phone">
+
+    <div class="header">
+        <div class="icon">☁️</div>
+
+        <h1>S3 Mobile Upload</h1>
+
+        <p class="subtitle">
+            Securely upload your files directly to
+            Amazon S3 using a presigned URL.
+        </p>
+    </div>
+
+    <div class="upload-box">
+
+        <p>📁 Select an image to upload</p>
+
+        <input
+    type="file"
+    id="fileInput"
+    accept="image/*"
+    onchange="showPreview()"
+>
+
+<div id="previewArea" style="display:none; margin-bottom:18px;">
+
+    <img
+        id="imagePreview"
+        alt="Selected image preview"
+        style="
+            width:100%;
+            max-height:180px;
+            object-fit:cover;
+            border-radius:10px;
+            margin-bottom:10px;
+        "
+    >
+
+    <div style="
+        text-align:left;
+        font-size:12px;
+        color:#555;
+        line-height:1.7;
+    ">
+        <div><b>File:</b> <span id="fileName"></span></div>
+        <div><b>Size:</b> <span id="fileSize"></span></div>
+        <div><b>Type:</b> <span id="fileType"></span></div>
+    </div>
+
+</div>
+
+        <button onclick="uploadFile()">
+            Upload to Amazon S3
+        </button>
+        <div id="progressContainer" style="
+    display:none;
+    margin-top:18px;
+    text-align:left;
+">
+
+    <div style="
+        display:flex;
+        justify-content:space-between;
+        font-size:12px;
+        margin-bottom:6px;
+        color:#555;
+    ">
+        <span id="progressText">Uploading...</span>
+        <span id="progressPercent">0%</span>
+    </div>
+
+    <div style="
+        width:100%;
+        height:10px;
+        background:#e5e5e5;
+        border-radius:10px;
+        overflow:hidden;
+    ">
+        <div id="progressBar" style="
+            width:0%;
+            height:100%;
+            background:#ff9900;
+            border-radius:10px;
+            transition:width 0.2s;
+        "></div>
+    </div>
+
+</div>
+    </div>
+
+    <div id="status"></div>
+
+    <div class="security">
+        🔒 Secure direct upload using
+        <span class="aws">AWS S3 Presigned URLs</span>
+        <br>
+        No AWS credentials are stored in the client.
+    </div>
+
+</div>
+
+<script src="script.js"></script>
+
+</body>
+</html>
